@@ -19,7 +19,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar
 class SchedulersConfig implements SchedulingConfigurer {
 
     static Logger logger = LoggerFactory.getLogger(SchedulersConfig.class)
-    private static final long ONE_DAY = 24 * 60 * 60 * 1000L
+    private static final long DELAY =  10 * 60 * 1000L
 
 
     @Autowired
@@ -41,6 +41,6 @@ class SchedulersConfig implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addFixedRateTask(startDownloads, ONE_DAY);
+        taskRegistrar.addFixedRateTask(startDownloads, DELAY);
     }
 }
