@@ -11,7 +11,6 @@ import org.springframework.mail.MailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 
-import javax.annotation.PostConstruct
 import javax.mail.internet.MimeMessage
 
 /**
@@ -30,7 +29,6 @@ class CheckAndSend implements Runnable {
     MailSender sender
 
     Date date
-
 
 
     String letter = '''
@@ -55,7 +53,6 @@ class CheckAndSend implements Runnable {
     </p>
 
         '''
-
 
 
     @Override
