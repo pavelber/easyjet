@@ -29,7 +29,9 @@ class CheckAndSend implements Runnable {
     @Autowired
     MailSender sender
 
-    String stored
+    Date date
+
+
 
     String letter = '''
         Дешевые билеты ждут вас на <a href="http://easyjet.com">easyjet.com</a>
@@ -54,13 +56,11 @@ class CheckAndSend implements Runnable {
 
         '''
 
-    @PostConstruct
-    void init() {
-        stored = eventRepository.findFirstByOrderByIdDesc().stored
-    }
+
 
     @Override
     public void run() {
+        String stored = eventRepository.findFirstByOrderByIdDesc().stored
         def data = new URL('http://www.easyjet.com/EN/linkedAirportsJSON').getText()
         def jsonSlurper = new JsonSlurper()
         List<String> list = jsonSlurper.parseText(data.substring(12, data.length() - 2).replace('\'', '"'))
@@ -86,6 +86,6 @@ class CheckAndSend implements Runnable {
             }
             eventRepository.save(new Event(stored: str))
         }
-
+        date = new Date()
     }
 }
