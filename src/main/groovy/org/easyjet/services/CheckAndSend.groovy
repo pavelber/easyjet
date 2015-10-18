@@ -11,6 +11,7 @@ import org.springframework.mail.MailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 
+import javax.annotation.PostConstruct
 import javax.mail.internet.MimeMessage
 
 /**
@@ -53,7 +54,12 @@ class CheckAndSend implements Runnable {
     </p>
 
         '''
+    private def users
 
+    @PostConstruct
+    def init() {
+        users = userRepository.findAll()
+    }
 
     @Override
     public void run() {
@@ -65,7 +71,6 @@ class CheckAndSend implements Runnable {
 
         if (str != stored) {
             logger.info("Found diff")
-            def users = userRepository.findAll()
             users.each {
                 try {
                     logger.info("Sending to {}", it.email)
@@ -77,6 +82,7 @@ class CheckAndSend implements Runnable {
                     helper.setSubject("New flights by EasyJet from TLV");
 
                     sender.send(message)
+                    Thread.sleep(10000L)
                 } catch (Exception e) {
                     logger.error("Can't send email to " + it.email, e)
                 }
