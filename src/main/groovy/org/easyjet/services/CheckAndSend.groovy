@@ -64,7 +64,7 @@ class CheckAndSend implements Runnable {
     @Override
     public void run() {
         String stored = eventRepository.findFirstByOrderByIdDesc().stored
-        def data = new URL('http://www.easyjet.com/EN/linkedAirportsJSON').getText()
+        def data = new URL('http://www.easyjet.com/EN/linkedAirportsJSON').getText(useCaches:false)
         def jsonSlurper = new JsonSlurper()
         List<String> list = jsonSlurper.parseText(data.substring(12, data.length() - 2).replace('\'', '"'))
         String str = list.findAll { it.startsWith("TLV") }
