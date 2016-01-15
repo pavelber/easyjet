@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.web.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.PropertySource
+import org.springframework.context.annotation.PropertySources
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.scheduling.annotation.EnableAsync
 
@@ -15,7 +17,10 @@ import org.springframework.scheduling.annotation.EnableAsync
 @ComponentScan
 @EnableJpaRepositories(basePackages = ["org.easyjet"])
 @EnableAsync
-public class Application extends SpringBootServletInitializer  {
+@PropertySources([
+        @PropertySource(value = "classpath:application.properties"),
+        @PropertySource(value = 'file:${user.home}/properties/easy.properties')])
+public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

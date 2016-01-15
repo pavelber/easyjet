@@ -9,7 +9,7 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name="events")
-class Event {
+class   Event {
     @Id
     int id;
     String stored
