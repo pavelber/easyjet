@@ -11,6 +11,8 @@ import javax.persistence.Table
 @Table(name="events")
 class   Event {
     @Id
-    int id;
+    int id
+    String company
+    String destination
     String stored
 }

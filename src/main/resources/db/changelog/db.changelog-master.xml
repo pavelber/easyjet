@@ -19,4 +19,12 @@
             <column name="stored" type="varchar(2048)"/>
         </createTable>
     </changeSet>
+    <changeSet id="Add company and destination" author="Pavel">
+        <addColumn tableName="events">
+            <column name="company" type="varchar(1028)" defaultValue="easyjet"/>
+        </addColumn>
+        <addColumn tableName="events">
+            <column name="destination" type="varchar(1028)" defaultValue="all"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

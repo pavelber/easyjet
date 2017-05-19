@@ -1,8 +1,7 @@
 package org.easyjet.controllers
 
 import org.easyjet.entity.IUserRepository
-import org.easyjet.entity.User
-import org.easyjet.services.CheckAndSend
+import org.easyjet.services.EasyJetCheckAndSend
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,7 +19,7 @@ class StatusController {
     IUserRepository repo
 
     @Autowired
-    CheckAndSend checkAndSend
+    EasyJetCheckAndSend checkAndSend
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 

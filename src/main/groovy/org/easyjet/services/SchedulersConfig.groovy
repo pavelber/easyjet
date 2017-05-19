@@ -27,20 +27,24 @@ class SchedulersConfig implements SchedulingConfigurer {
 
 
     @Autowired
-    CheckAndSend startDownloads;
+    EasyJetCheckAndSend startDownloads
+
+    @Autowired
+    WowCheckAndSend wowCheck
 
     @Bean
-    public ThreadPoolTaskScheduler taskScheduler() {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(20);
-        scheduler.setThreadNamePrefix("task-");
-        scheduler.setAwaitTerminationSeconds(60);
-        scheduler.setWaitForTasksToCompleteOnShutdown(true);
-        return scheduler;
+    ThreadPoolTaskScheduler taskScheduler() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler()
+        scheduler.setPoolSize(20)
+        scheduler.setThreadNamePrefix("task-")
+        scheduler.setAwaitTerminationSeconds(60)
+        scheduler.setWaitForTasksToCompleteOnShutdown(true)
+        return scheduler
     }
 
     @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addFixedRateTask(startDownloads, DELAY);
+    void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        taskRegistrar.addFixedRateTask(startDownloads, DELAY)
+        taskRegistrar.addFixedRateTask(wowCheck, DELAY)
     }
 }
