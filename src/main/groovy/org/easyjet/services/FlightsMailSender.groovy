@@ -28,13 +28,13 @@ class FlightsMailSender {
                 MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
                 helper.setText(text, true);
                 helper.setFrom("easyjet.informer@gmail.com")
-                helper.setTo(it)
+                helper.setTo(it.email)
                 helper.setSubject(subject)
 
                 sender.send(message)
                 Thread.sleep(10000L)
             } catch (Exception e) {
-                logger.error("Can't send email to " + it, e)
+                logger.error("Can't send email to " + it.email, e)
             }
         }
     }

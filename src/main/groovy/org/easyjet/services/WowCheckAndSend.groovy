@@ -4,6 +4,7 @@ import groovy.json.JsonSlurper
 import org.easyjet.entity.Event
 import org.easyjet.entity.IEventRepository
 import org.easyjet.entity.IUserRepository
+import org.easyjet.entity.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +49,7 @@ class WowCheckAndSend implements Runnable {
 
         if (str != stored) {
             logger.info("Found diff")
-            def users = ["javaap@gmail.com"]//userRepository.findAll()
+            def users = [new User(email:"javaap@gmail.com")]//userRepository.findAll()
             mailSender.send(users,"New flights by WOW from TLV to Chicago",letter)
             eventRepository.save(new Event(stored: str, company: COMPANY, destination: DESTINATION))
         }
