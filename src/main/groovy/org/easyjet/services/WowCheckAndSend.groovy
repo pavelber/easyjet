@@ -33,6 +33,8 @@ class WowCheckAndSend implements Runnable {
     String letter = '''
         Дешевые билеты ждут вас на <a href="http://https://wowair.co.il/">wowair.co.il</a>
         <br>
+        Рейсы доступны вплоть до DEPART
+        <br>
         <b>Помните</b>, что не все серверы апдейтятся одновременно.
         Если Вы зашли на сайт wowair и не увидели новых полетов, попробуйте через 5-10 минут - они уже тут!
         ''' + LetterConsts.letterSuffinx
@@ -42,16 +44,16 @@ class WowCheckAndSend implements Runnable {
     void run() {
         COMPANY = "WOW"
         def desc = eventRepository.findByCompanyAndDestinationOrderByIdDesc(COMPANY, DESTINATION)
-        String stored = desc.size()==0?"":desc.head().stored
+        Long stored = desc.size()==0?"":(desc.head().stored.isLong()?desc.head().stored.toLong:0L)
         def data = new URL('https://booking.wowair.co.uk/SearchBoxUserControl/GetAllDatesWithNoFlights?originAirportCode=TLV&destinationAirportCode='+DESTINATION).getText(useCaches:false)
         def jsonSlurper = new JsonSlurper()
-        String str = ((Map)jsonSlurper.parseText(data)).get("departurePeriodEnd")
+        Long depart = Long.parseLong(((Map)jsonSlurper.parseText(data)).get("departurePeriodEnd")[6..18])
 
-        if (str != stored) {
+        if (depart > stored) {
             logger.info("Found diff")
             def users = [new User(email:"javaap@gmail.com")]//userRepository.findAll()
-            mailSender.send(users,"New flights by WOW from TLV to Chicago",letter)
-            eventRepository.save(new Event(stored: str, company: COMPANY, destination: DESTINATION))
+            mailSender.send(users,"New flights by WOW from TLV to Chicago",letter.replace("DEPART",new Date(depart).toString()))
+            eventRepository.save(new Event(stored: depart.toString(), company: COMPANY, destination: DESTINATION))
         }
         date = new Date()
     }

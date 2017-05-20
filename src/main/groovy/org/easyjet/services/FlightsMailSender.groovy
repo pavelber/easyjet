@@ -23,7 +23,7 @@ class FlightsMailSender {
     void send(users, subject, text ) {
         users.each {
             try {
-                logger.info("Sending to {}", it)
+                logger.info("Sending to {}", it.email)
                 MimeMessage message = sender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
                 helper.setText(text, true);
