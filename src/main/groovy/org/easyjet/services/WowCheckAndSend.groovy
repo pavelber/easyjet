@@ -44,7 +44,7 @@ class WowCheckAndSend implements Runnable {
     void run() {
         COMPANY = "WOW"
         def desc = eventRepository.findByCompanyAndDestinationOrderByIdDesc(COMPANY, DESTINATION)
-        Long stored = desc.size()==0?"":(desc.head().stored.isLong()?desc.head().stored.toLong:0L)
+        Long stored = desc.size()==0?"":(desc.head().stored.isLong()?Long.parseLong(desc.head().stored):0L)
         def data = new URL('https://booking.wowair.co.uk/SearchBoxUserControl/GetAllDatesWithNoFlights?originAirportCode=TLV&destinationAirportCode='+DESTINATION).getText(useCaches:false)
         def jsonSlurper = new JsonSlurper()
         Long depart = Long.parseLong(((Map)jsonSlurper.parseText(data)).get("departurePeriodEnd")[6..18])
