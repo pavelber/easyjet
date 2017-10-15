@@ -51,7 +51,7 @@ class WowCheckAndSend implements Runnable {
 
         if (depart > stored) {
             logger.info("Found diff")
-            def users = [new User(email:"javaap@gmail.com")]//userRepository.findAll()
+            def users = userRepository.findAll()
             mailSender.send(users,"New flights by WOW from TLV to Chicago",letter.replace("DEPART",new Date(depart).toString()))
             eventRepository.save(new Event(stored: depart.toString(), company: COMPANY, destination: DESTINATION))
         }
