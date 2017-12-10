@@ -45,6 +45,6 @@ class SchedulersConfig implements SchedulingConfigurer {
     @Override
     void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.addFixedRateTask(startDownloads, DELAY)
-        taskRegistrar.addFixedRateTask(wowCheck, DELAY)
+   //     taskRegistrar.addFixedRateTask(wowCheck, DELAY)
     }
 }
